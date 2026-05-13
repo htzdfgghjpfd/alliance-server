@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <title>WhiteSideCraftRP • Средневековый Кодекс</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=MedievalSharp&family=UnifrakturCook:wght@700&display=swap" rel="stylesheet">
+  
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg-dark: #1a120b;
+      --gold: #dba63c;
+      --gold-light: #f3cd81;
+      --text: #d4c5a9;
+      --border: #5b3d22;
+      --red: #c0392b;
+      --red-glow: #ff4444;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      background-image: 
+        radial-gradient(ellipse at 20% 50%, rgba(90, 50, 20, 0.25) 0%, transparent 55%),
+        radial-gradient(ellipse at 80% 20%, rgba(70, 30, 10, 0.3) 0%, transparent 55%),
+        url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><path d="M10 10 L20 15 L10 20 Z" fill="rgba(40,25,15,0.15)"/><path d="M90 80 L80 85 L90 90 Z" fill="rgba(40,25,15,0.1)"/><circle cx="85" cy="15" r="3" fill="rgba(60,35,20,0.2)"/><circle cx="15" cy="85" r="4" fill="rgba(60,35,20,0.15)"/></svg>');
+      background-repeat: repeat;
+      font-family: 'Cinzel', 'MedievalSharp', 'Times New Roman', serif;
+      color: var(--text);
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      box-shadow: inset 0 0 120px rgba(0,0,0,0.6);
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 10px; left: 10px; right: 10px; bottom: 10px;
+      border: 3px double #6a4e2e;
+      border-radius: 6px;
+      pointer-events: none;
+      box-shadow: 0 0 25px rgba(160, 100, 30, 0.3);
+      z-index: 5;
+      animation: borderPulse 3s ease-in-out infinite;
+    }
+
+    @keyframes borderPulse {
+      0%, 100% { box-shadow: 0 0 25px rgba(160, 100, 30, 0.3); }
+      50% { box-shadow: 0 0 45px rgba(200, 140, 40, 0.6); }
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes glowPulse {
+      0%, 100% { text-shadow: 2px 2px 0 #1a0e04, 0 0 12px #b85e0c, 0 0 24px #8a3a00; }
+      50% { text-shadow: 2px 2px 0 #1a0e04, 0 0 20px #f0a020, 0 0 40px #c06010, 0 0 60px #8a3a00; }
+    }
+    @keyframes slideInLeft {
+      from { opacity: 0; transform: translateX(-40px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes slideInRight {
+      from { opacity: 0; transform: translateX(40px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    .main-container {
+      max-width: 1000px;
+      width: 100%;
+      background: rgba(18, 13, 8, 0.75);
+      backdrop-filter: blur(12px);
+      background-image: linear-gradient(180deg, rgba(45, 30, 15, 0.7) 0%, rgba(25, 15, 5, 0.85) 100%);
+      border: 5px solid #3a2a16;
+      border-radius: 16px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.8), 0 0 0 2px #5e3e1a, 0 0 50px #4a2c0e;
+      padding: 2rem 2.5rem 2.2rem;
+      position: relative;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      animation: fadeInUp 0.8s ease-out;
+    }
+
+    .main-container::after, .main-container::before {
+      content: "";
+      position: absolute;
+      width: 30px; height: 30px;
+      background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M2 2h6v2H4v4H2V2zm16 0h4v6h-2V4h-2V2zM2 18h2v4h4v2H2v-6zm16 0h4v6h-6v-2h4v-4z" fill="%237a5a38"/></svg>') no-repeat;
+      background-size: contain;
+      opacity: 0.9;
+    }
+    .main-container::after { top: -8px; left: -8px; }
+    .main-container::before { bottom: -8px; right: -8px; transform: rotate(180deg); }
+
+    .server-title {
+      font-family: 'Cinzel', 'UnifrakturCook', serif;
+      font-weight: 900;
+      font-size: 3.2rem;
+      text-align: center;
+      margin-bottom: 0.2rem;
+      line-height: 1.2;
+      letter-spacing: 3px;
+      color: #f7d9a0;
+      filter: drop-shadow(0 6px 4px #00000080);
+      animation: glowPulse 2.5s ease-in-out infinite;
+      text-transform: uppercase;
+      word-break: break-word;
+    }
+
+    .server-subtitle {
+      text-align: center;
+      font-size: 1.2rem;
+      font-style: italic;
+      color: #c0a375;
+      margin-bottom: 0.3rem;
+      border-bottom: 2px solid #6a4a2c;
+      padding-bottom: 0.8rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .tab-nav {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.5rem;
+      margin: 0.5rem 0 1rem;
+      padding: 0.5rem;
+      background: rgba(0,0,0,0.3);
+      border-radius: 14px;
+      border: 1px solid #4a3018;
+    }
+
+    .tab-btn {
+      font-family: 'Cinzel', serif;
+      font-weight: bold;
+      font-size: 0.95rem;
+      padding: 0.7rem 1.3rem;
+      background: #2a1a0a;
+      border: 2px solid #5a3a1e;
+      color: #c0a060;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: all 0.35s ease;
+      position: relative;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    .tab-btn::before {
+      content: "";
+      position: absolute;
+      top: 0; left: -100%;
+      width: 100%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,200,100,0.15), transparent);
+      transition: left 0.5s ease;
+    }
+    .tab-btn:hover::before { left: 100%; }
+    .tab-btn:hover {
+      border-color: #b08040;
+      color: #e7c070;
+      background: #3d2410;
+      box-shadow: 0 0 20px rgba(180, 120, 30, 0.3);
+      transform: translateY(-2px);
+    }
+    .tab-btn.active {
+      background: #4a2c14;
+      border-color: #dba63c;
+      color: #f7d9a0;
+      box-shadow: 0 0 25px rgba(200, 150, 40, 0.5), inset 0 0 15px rgba(200,150,40,0.1);
+    }
+
+    .tab-content {
+      display: none;
+      animation: fadeInUp 0.5s ease-out;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+    .tab-content.active { display: flex; }
+
+    .ip-address {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      background: #0d0702;
+      border: 2px solid #b5944c;
+      border-radius: 30px;
+      padding: 0.6rem 1.6rem;
+      margin: 0 auto 0.5rem;
+      font-size: 1.4rem;
+      font-weight: bold;
+      color: #f3cd81;
+      letter-spacing: 1px;
+      box-shadow: 0 0 20px rgba(180, 120, 30, 0.4);
+      animation: glowPulse 2s ease-in-out infinite;
+    }
+    .ip-address span { color: #9b8a63; font-size: 1rem; margin-right: 0.2rem; }
+
+    .team-badge {
+      text-align: center;
+      font-size: 1rem;
+      color: #b4945a;
+      margin-bottom: 1rem;
+      background: #1f1507;
+      display: inline-block;
+      padding: 0.4rem 1.6rem;
+      border-radius: 30px;
+      border: 1px solid #7a613a;
+      align-self: center;
+    }
+
+    .btn {
+      font-family: 'Cinzel', serif;
+      font-weight: bold;
+      padding: 0.8rem 2rem;
+      text-decoration: none;
+      border-radius: 10px;
+      transition: all 0.35s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      cursor: pointer;
+      border: 2px solid;
+    }
+    .btn-gold {
+      background: #3f2d14;
+      border-color: #b5944c;
+      color: #f3e0b0;
+      box-shadow: 0 0 18px rgba(180, 120, 30, 0.4);
+      font-size: 1.2rem;
+    }
+    .btn-gold:hover {
+      background: #5a3e1c;
+      box-shadow: 0 0 30px #e59b2c;
+      color: #fff;
+      border-color: #e3b04b;
+      transform: translateY(-3px);
+    }
+    .btn-social {
+      background: #281e0e;
+      border-color: #947a48;
+      color: #ebd6b0;
+      font-size: 1rem;
+      padding: 0.7rem 1.5rem;
+      border-radius: 30px;
+      box-shadow: 0 4px 10px black;
+    }
+    .btn-social:hover {
+      background: #4e3b1c;
+      border-color: #dba944;
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(200,150,40,0.4);
+    }
+    .center-flex { display: flex; justify-content: center; flex-wrap: wrap; gap: 1rem; }
+
+    .decree, .install-guide, .how-to-join, .nation-law, .donation-box {
+      background: #1e140a;
+      border: 2px solid #7a5a3a;
+      border-radius: 12px;
+      padding: 1.5rem 1.8rem;
+      margin: 0.5rem 0;
+      box-shadow: inset 0 0 20px rgba(0,0,0,0.3), 0 8px 25px rgba(0,0,0,0.6);
+      animation: fadeInUp 0.6s ease-out;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .decree:hover, .install-guide:hover, .how-to-join:hover, .nation-law:hover, .donation-box:hover {
+      transform: translateY(-2px);
+      box-shadow: inset 0 0 25px rgba(0,0,0,0.4), 0 12px 35px rgba(0,0,0,0.7);
+    }
+
+    .warning-badge {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #2d1e0b;
+      border-left: 6px solid var(--red);
+      padding: 0.9rem 1.2rem;
+      margin: 0.8rem 0;
+      font-weight: bold;
+      color: #f5c9a0;
+      border-radius: 0 12px 12px 0;
+      box-shadow: 0 0 20px rgba(180, 40, 30, 0.3);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      animation: slideInLeft 0.6s ease-out;
+    }
+    .warning-badge strong { color: var(--red-glow); }
+
+    .rule-item {
+      display: flex;
+      flex-direction: column;
+      background: rgba(30, 18, 8, 0.7);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1rem 1.4rem;
+      margin: 0.7rem 0;
+      backdrop-filter: blur(3px);
+      transition: all 0.35s ease;
+      animation: slideInRight 0.5s ease-out;
+    }
+    .rule-item:nth-child(odd) { animation: slideInLeft 0.5s ease-out; }
+    .rule-item:hover {
+      border-color: #b08040;
+      background: rgba(40, 22, 10, 0.85);
+      box-shadow: 0 0 22px rgba(180, 120, 40, 0.4);
+      transform: translateX(4px);
+    }
+    .rule-title {
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #e7bc7a;
+      display: flex;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 0.3rem;
+    }
+    .punishment {
+      color: #d97845;
+      font-style: italic;
+      font-size: 0.9rem;
+      background: #2a1607;
+      padding: 0.2rem 0.8rem;
+      border-radius: 20px;
+      display: inline-block;
+    }
+    .extra-note { font-size: 0.9rem; color: #b5986e; margin-top: 0.3rem; padding-left: 0.8rem; border-left: 2px solid #73552e; }
+
+    .install-steps { display: flex; flex-direction: column; gap: 0.7rem; }
+    .install-step {
+      background: #231809;
+      border: 1px solid #5b3d22;
+      border-radius: 10px;
+      padding: 0.9rem 1.4rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      box-shadow: 0 4px 12px black;
+      transition: all 0.3s ease;
+    }
+    .install-step:hover { border-color: #8a6030; background: #2d1f0c; box-shadow: 0 6px 20px rgba(0,0,0,0.7); }
+    .step-num { font-size: 1.8rem; font-weight: bold; color: var(--gold); min-width: 35px; }
+    .step-text { color: #cfbc91; font-size: 1rem; line-height: 1.5; }
+    .step-text strong { color: var(--gold-light); }
+    .step-text code { background: #0f0803; padding: 0.2rem 0.5rem; border-radius: 4px; color: var(--gold); font-family: monospace; }
+
+    .steps-cards { display: flex; flex-wrap: wrap; justify-content: center; gap: 1.5rem; margin-top: 0.8rem; }
+    .step-card {
+      background: #231809;
+      border: 2px solid #7a5c32;
+      border-radius: 14px;
+      padding: 1.2rem 1.4rem;
+      max-width: 220px;
+      flex: 1 1 180px;
+      box-shadow: 0 8px 20px black;
+      transition: all 0.35s ease;
+      text-align: center;
+    }
+    .step-card:hover { transform: translateY(-6px); border-color: #dba63c; box-shadow: 0 14px 30px rgba(200, 150, 40, 0.3); }
+    .step-number { font-size: 2.2rem; color: var(--gold); font-weight: bold; margin-bottom: 0.3rem; }
+    .step-card p { color: #cfbc91; font-size: 0.95rem; }
+
+    /* СТРАНЫ — КРУГЛЫЙ КОНТЕЙНЕР 200x200 С АНИМАЦИЯМИ */
+    .nation-flag {
+      flex-shrink: 0;
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(circle at 30% 20%, #0a0f2a, #03050b);
+      border: 3px solid #c9a03d;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.7), inset 0 0 50px rgba(255,215,0,0.2);
+      position: relative;
+      transition: all 0.4s ease;
+      overflow: visible;
+    }
+    .nation-flag:hover {
+      transform: scale(1.02);
+      box-shadow: 0 0 40px rgba(210, 180, 80, 0.6);
+    }
+
+    /* СОЛНЦЕ (неровное, с лучами, вращается) */
+    .sun-uneven {
+      position: relative;
+      width: 120px;
+      height: 120px;
+      animation: spinSlow 20s linear infinite;
+    }
+    .sun-core {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 65px;
+      height: 65px;
+      background: radial-gradient(circle, #ffcc44, #ff8800);
+      border-radius: 50%;
+      box-shadow: 0 0 50px #ffaa33;
+      z-index: 2;
+    }
+    .sun-ray {
+      position: absolute;
+      background: radial-gradient(ellipse, #ffaa44, #ff6600);
+      border-radius: 40%;
+      opacity: 0.85;
+    }
+    .ray1 { width: 120px; height: 22px; top: 49px; left: 0; transform: rotate(0deg); border-radius: 30%; }
+    .ray2 { width: 120px; height: 22px; top: 49px; left: 0; transform: rotate(45deg); }
+    .ray3 { width: 120px; height: 22px; top: 49px; left: 0; transform: rotate(90deg); }
+    .ray4 { width: 120px; height: 22px; top: 49px; left: 0; transform: rotate(135deg); }
+    .ray5 { width: 80px; height: 18px; top: 56px; left: 20px; transform: rotate(22deg); opacity: 0.6; }
+    .ray6 { width: 80px; height: 18px; top: 56px; left: 20px; transform: rotate(67deg); opacity: 0.6; }
+    .ray7 { width: 80px; height: 18px; top: 56px; left: 20px; transform: rotate(112deg); opacity: 0.6; }
+    .ray8 { width: 80px; height: 18px; top: 56px; left: 20px; transform: rotate(157deg); opacity: 0.6; }
+
+    /* ЛУНА (рогатый полумесяц, как в Моане, со звёздами) */
+    .moon-crescent {
+      position: relative;
+      width: 120px;
+      height: 120px;
+      animation: floatGlow 4s ease-in-out infinite;
+    }
+    .moon-body {
+      position: absolute;
+      width: 85px;
+      height: 85px;
+      background: radial-gradient(circle at 25% 35%, #fef7e0, #e0c890, #b58a4a);
+      border-radius: 50%;
+      box-shadow: 0 0 35px #ffe4a0, inset -8px -5px 0px rgba(80, 50, 10, 0.2);
+      clip-path: polygon(
+        0% 0%, 85% 0%, 95% 15%, 100% 35%, 95% 60%, 80% 80%, 
+        60% 95%, 30% 100%, 10% 92%, 0% 75%, 5% 55%, 0% 35%, 5% 18%
+      );
+      top: 17px;
+      left: 17px;
+    }
+    .moon-spike {
+      position: absolute;
+      background: #f3e5b0;
+      box-shadow: 0 0 12px #ffdd99;
+      border-radius: 60% 40% 50% 50%;
+    }
+    .spike1 { width: 22px; height: 28px; top: 5px; left: 70px; transform: rotate(20deg); }
+    .spike2 { width: 25px; height: 30px; top: 50px; left: 88px; transform: rotate(70deg); }
+    .spike3 { width: 20px; height: 25px; top: 85px; left: 55px; transform: rotate(130deg); }
+
+    /* ЗВЁЗДЫ */
+    .star {
+      position: absolute;
+      background: #fff9e0;
+      border-radius: 50%;
+      box-shadow: 0 0 12px #fff2b5;
+      animation: twinkle 2s ease-in-out infinite alternate;
+    }
+    .star1 { width: 6px; height: 6px; top: 15px; left: 120px; animation-delay: 0s; }
+    .star2 { width: 4px; height: 4px; top: 75px; left: 135px; animation-delay: 0.7s; }
+    .star3 { width: 5px; height: 5px; top: 135px; left: 95px; animation-delay: 1.2s; }
+    .star4 { width: 3px; height: 3px; top: 145px; left: 40px; animation-delay: 0.3s; }
+    .star5 { width: 4px; height: 4px; top: 25px; left: 12px; animation-delay: 1s; }
+
+    @keyframes spinSlow {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    @keyframes floatGlow {
+      0% { transform: translateY(0px) scale(1); filter: drop-shadow(0 0 5px #ffdd99); }
+      50% { transform: translateY(-6px) scale(1.02); filter: drop-shadow(0 0 20px #f7cd75); }
+      100% { transform: translateY(0px) scale(1); }
+    }
+    @keyframes twinkle {
+      0% { opacity: 0.2; transform: scale(0.8); }
+      100% { opacity: 1; transform: scale(1.3); }
+    }
+
+    .nation-header-right {
+      flex: 1;
+      min-width: 220px;
+    }
+    .nation-name {
+      font-size: 1.9rem;
+      font-weight: 900;
+      color: #f3cd81;
+      margin-bottom: 0.8rem;
+      border-bottom: 2px solid #6a4c2a;
+      display: inline-block;
+    }
+    .nation-detail {
+      margin: 0.5rem 0;
+      font-size: 1rem;
+      color: #cfbc91;
+    }
+    .nation-detail strong {
+      color: #e7bc7a;
+      min-width: 90px;
+      display: inline-block;
+    }
+    .nation-description {
+      padding: 1rem 1.5rem 1.2rem;
+      background: #23190e;
+      border-top: 1px solid #5a3e22;
+      font-size: 1rem;
+      line-height: 1.6;
+      color: #d0bfa0;
+    }
+    .nation-description p {
+      margin: 0;
+    }
+    .nation-card {
+      background: #1a1108;
+      border: 1px solid #5e3e1e;
+      border-radius: 14px;
+      margin-bottom: 2rem;
+      overflow: hidden;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.5);
+    }
+    .nation-inner {
+      display: flex;
+      flex-wrap: wrap;
+      padding: 1.5rem;
+      gap: 1.8rem;
+      align-items: flex-start;
+    }
+    .soon-text {
+      text-align: center;
+      font-size: 2rem;
+      padding: 2rem;
+      color: var(--gold);
+      font-weight: bold;
+      letter-spacing: 4px;
+    }
+    hr { border: none; border-top: 2px solid #70512e; margin: 1.2rem 0 0.8rem; opacity: 0.8; }
+    .signature { text-align: right; font-family: 'MedievalSharp', cursive; font-size: 1.6rem; color: #b48b4b; margin-top: 1rem; text-shadow: 2px 2px 0 black; }
+    .social-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 1.2rem; margin-top: 1rem; padding-top: 1.2rem; border-top: 2px solid #624a2a; }
+    .footer-note { text-align: center; margin-top: 1rem; font-size: 1rem; color: #856b47; padding-top: 0.8rem; }
+
+    @media (max-width: 700px) {
+      body { padding: 0.6rem; }
+      .main-container { padding: 1.2rem 0.8rem; }
+      .server-title { font-size: 1.8rem; letter-spacing: 1px; }
+      .tab-nav { gap: 0.3rem; }
+      .tab-btn { font-size: 0.65rem; padding: 0.4rem 0.6rem; white-space: normal; }
+      .nation-inner { flex-direction: column; align-items: center; text-align: center; }
+      .nation-flag { width: 150px; height: 150px; }
+      .sun-uneven, .moon-crescent { transform: scale(0.8); }
+      .star1, .star2, .star3, .star4, .star5 { display: none; }
+      .nation-name { font-size: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="main-container">
+    <h1 class="server-title">⚜️ WHITESIDECRAFTRP ⚜️</h1>
+    <div class="server-subtitle">Кодекс Средневековья • Тёмное Фэнтези</div>
+    <div class="ip-address"><span>🖧 IP:</span> whiteside.skuf.club</div>
+    <div class="team-badge">🏰 Создано командой WhiteSide</div>
+
+    <nav class="tab-nav" id="tabNav">
+      <button class="tab-btn active" data-tab="tab-home">🏠 Главная</button>
+      <button class="tab-btn" data-tab="tab-rules">📜 Правила</button>
+      <button class="tab-btn" data-tab="tab-pvp">⚔️ PvP Кодекс</button>
+      <button class="tab-btn" data-tab="tab-nations">🏰 Страны</button>
+      <button class="tab-btn" data-tab="tab-donate">💰 Пожертвования</button>
+    </nav>
+
+    <!-- ГЛАВНАЯ -->
+    <div class="tab-content active" id="tab-home">
+      <div class="center-flex">
+        <a href="https://drive.google.com/file/d/1PPBclCbRvAndSHXHzN-X_mypbj5UcY_K/view?usp=sharing" target="_blank" class="btn btn-gold">📥 Скачать сборку (Forge 1.20.1)</a>
+      </div>
+      <div class="install-guide">
+        <h3 style="color:#e7bc7a; text-align:center;">📦 Как установить сборку</h3>
+        <div class="install-steps">
+          <div class="install-step"><div class="step-num">1</div><div class="step-text"><strong>Создайте версию Forge 1.20.1</strong> в лаунчере. Запустите один раз и закройте.</div></div>
+          <div class="install-step"><div class="step-num">2</div><div class="step-text">Откройте папку: <code>Win+R</code> → <code>%appdata%\.minecraft</code></div></div>
+          <div class="install-step"><div class="step-num">3</div><div class="step-text">Перейдите в <strong><code>versions</code></strong> → папка <strong>Forge 1.20.1</strong>.</div></div>
+          <div class="install-step"><div class="step-num">4</div><div class="step-text">Создайте папку <strong><code>mods</code></strong>. Скачайте сборку и переместите <strong>все файлы</strong> в <code>mods</code>.</div></div>
+          <div class="install-step"><div class="step-num">5</div><div class="step-text"><strong>Готово!</strong> Запускайте Forge 1.20.1 и заходите на сервер!</div></div>
+        </div>
+      </div>
+      <div class="how-to-join">
+        <h3 style="color:#f3cd81;">🗝️ Как попасть на сервер?</h3>
+        <div class="steps-cards">
+          <div class="step-card"><div class="step-number">Ⅰ</div><p>Свяжитесь с <strong>администратором</strong> в Discord.</p></div>
+          <div class="step-card"><div class="step-number">Ⅱ</div><p>Пройдите <strong>проверку</strong> на знание правил.</p></div>
+          <div class="step-card"><div class="step-number">Ⅲ</div><p>Сообщите <strong>ник в Minecraft</strong> для вайтлиста!</p></div>
+        </div>
+        <p style="margin-top:1.2rem; color:#b4945a; font-style:italic;">⚡ После добавления в вайтлист — добро пожаловать в WhiteSideCraftRP!</p>
+      </div>
+    </div>
+
+    <!-- ПРАВИЛА -->
+    <div class="tab-content" id="tab-rules">
+      <div class="decree"><p style="font-size:1.3rem; text-align:center;">📜 ВСТУПЛЕНИЕ</p><p>Незнание правил не освобождает от ответственности. Нарушения караются немедленно.</p></div>
+      <div class="warning-badge"><span>⚠️</span> ПРЕДУПРЕЖДЕНИЙ НЕ ВЫДАЁТСЯ. Наказания прилетят <strong>СРАЗУ</strong>.</div>
+      <h2 style="border-bottom:2px solid #624a2a;">📕 ОСНОВНЫЕ ПРАВИЛА</h2>
+      <div class="rule-block">
+        <div class="rule-item"><div class="rule-title">1.1 Запрещённое ПО <span class="punishment">Изъятие ресурсов</span></div><div class="extra-note">Читы, X-Ray, боты, автокликеры, моды на автодействия.</div></div>
+        <div class="rule-item"><div class="rule-title">1.2 Баги и дюпы <span class="punishment">Изъятие</span></div><div class="extra-note">Запрещено. Сообщившие первыми — не наказываются.</div></div>
+        <div class="rule-item"><div class="rule-title">1.3 Убийства без причин <span class="punishment">Изъятие</span></div><div class="extra-note">Гриф и PvP без ролевой причины запрещены.</div></div>
+        <div class="rule-item"><div class="rule-title">1.4 Постройки вне атмосферы <span class="punishment">Снос</span></div><div class="extra-note">Летающие постройки — только с обоснованием. Без пенисов и срама.</div></div>
+        <div class="rule-item"><div class="rule-title">1.5 Конфликты в чате <span class="punishment">Мут</span></div><div class="extra-note">Выяснение отношений — в ЛС или игровым способом.</div></div>
+        <div class="rule-item"><div class="rule-title">1.6 Ценить жизнь <span class="punishment">Предупреждение</span></div><div class="extra-note">Не спамить смертями. Смерть — значимое событие.</div></div>
+        <div class="rule-item"><div class="rule-title">1.7 Спам <span class="punishment">Мут</span></div><div class="extra-note">Запрещён спам звуками, музыкой, сообщениями.</div></div>
+      </div>
+      <h2 style="border-bottom:2px solid #624a2a;">📜 РОЛЕВЫЕ ПРАВИЛА</h2>
+      <div class="rule-block">
+        <div class="rule-item"><div class="rule-title">2.1 Lore Breaking <span class="punishment">Мут 15 мин.</span></div><div class="extra-note">Не говорить как робот, не спамить КАПСОМ и «)))» в серьёзных сценах.</div></div>
+        <div class="rule-item"><div class="rule-title">2.2 Игнор обстоятельств <span class="punishment">Мут 10 мин.</span></div><div class="extra-note">Бег в латах запрещён. Голод и жажду нужно отыгрывать.</div></div>
+      </div>
+    </div>
+
+    <!-- PVP -->
+    <div class="tab-content" id="tab-pvp">
+      <h2 style="text-align:center; border-bottom:2px solid #8b3a3a; padding-bottom:0.5rem;">⚔️ КОДЕКС БИТВЫ</h2>
+      <div class="decree" style="border-color:#8b3a3a;">
+        <div class="rule-block">
+          <div class="rule-item"><div class="rule-title">⚔️ 1. Better Combat <span class="punishment">Варн</span></div><div class="extra-note">Битва ведётся с модом <strong>"Better Combat"</strong> для баланса оружия.</div></div>
+          <div class="rule-item"><div class="rule-title">💣 2. Запрещённые предметы <span class="punishment">Варн</span></div><div class="extra-note">Запрещены: вагонетки с динамитом, паутина, кристаллы Края, динамит, якорь возрождения.</div></div>
+          <div class="rule-item"><div class="rule-title">💀 3. Смерть в бою <span class="punishment">Варн</span></div><div class="extra-note">Возвращаться в бой после смерти <strong>нельзя</strong>.</div></div>
+          <div class="rule-item"><div class="rule-title">🏳️ 4. Абуз зон <span class="punishment">Варн</span></div><div class="extra-note">Запрещено абузить спавн и ивент-территории.</div></div>
+        </div>
+      </div>
+      <div class="highlight-box" style="text-align:center; font-size:1.1rem; color:#e7bc7a;">⚡ Честь — превыше победы.</div>
+    </div>
+
+    <!-- СТРАНЫ (анимированные солнце и луна вместо флагов) -->
+    <div class="tab-content" id="tab-nations">
+      <div class="nation-law">
+        <h3 style="font-size:1.7rem; text-align:center;">🏰 ГОСУДАРСТВА МИРА</h3>
+        <p><span style="color:#e6b422;">⚜️ Две страны, каждый выбирает свой путь.</span></p>
+        <hr>
+      </div>
+
+      <!-- Страна 1: Неизвестно (Солнце) -->
+      <div class="nation-card">
+        <div class="nation-inner">
+          <div class="nation-flag">
+            <div class="sun-uneven">
+              <div class="sun-core"></div>
+              <div class="sun-ray ray1"></div>
+              <div class="sun-ray ray2"></div>
+              <div class="sun-ray ray3"></div>
+              <div class="sun-ray ray4"></div>
+              <div class="sun-ray ray5"></div>
+              <div class="sun-ray ray6"></div>
+              <div class="sun-ray ray7"></div>
+              <div class="sun-ray ray8"></div>
+            </div>
+          </div>
+          <div class="nation-header-right">
+            <div class="nation-name">Неизвестно</div>
+            <div class="nation-detail"><strong>Религия:</strong> ???</div>
+            <div class="nation-detail"><strong>Ценности:</strong> ???</div>
+          </div>
+        </div>
+        <div class="nation-description">
+          <p>Об этой стране нет достоверных сведений. Легенды умалчивают, летописи сожжены. Её народ скрыт во тьме времён. Говорят, что она существует на границе миров, но доказательств нет.</p>
+        </div>
+      </div>
+
+      <!-- Страна 2: Мидгард (рогатая луна + звёзды) -->
+      <div class="nation-card">
+        <div class="nation-inner">
+          <div class="nation-flag">
+            <div class="moon-crescent">
+              <div class="moon-body"></div>
+              <div class="moon-spike spike1"></div>
+              <div class="moon-spike spike2"></div>
+              <div class="moon-spike spike3"></div>
+              <div class="star star1"></div>
+              <div class="star star2"></div>
+              <div class="star star3"></div>
+              <div class="star star4"></div>
+              <div class="star star5"></div>
+            </div>
+          </div>
+          <div class="nation-header-right">
+            <div class="nation-name">Мидгард</div>
+            <div class="nation-detail"><strong>Религия:</strong> Вера в Нотча</div>
+            <div class="nation-detail"><strong>Ценности:</strong> Трудолюбие, родная земля, новые достижения каждого, друзья и своя семья</div>
+          </div>
+        </div>
+        <div class="nation-description">
+          <p>Держава, где закон един для всех, но справедлив к каждому. У нас ценят труд, уважают соседа и защищают своих. Чужакам вход только с одобрения президента — но если тебя приняли, ты становишься частью большой семьи. Здесь строят на века, сражаются плечом к плечу и не бросают в беде.</p>
+        </div>
+      </div>
+      <div class="highlight-box" style="margin-top: 1rem;">
+        ⚡ Игрок обязан выбрать одну из стран и следовать её законам. Отшельники — вне закона.
+      </div>
+    </div>
+
+    <!-- ПОЖЕРТВОВАНИЯ -->
+    <div class="tab-content" id="tab-donate">
+      <div class="donation-box">
+        <h2 style="text-align:center; color:#f3cd81;">🤝 Поддержать проект</h2>
+        <p style="text-align:center; font-size:1.1rem; margin-bottom:1.5rem;">WhiteSideCraftRP — <strong>полностью бесплатный проект</strong>. Мы не продаём привилегии и не берём денег за доступ. Но если вы хотите помочь серверу расти и развиваться дальше — будем безмерно благодарны за любую поддержку.</p>
+        <div class="soon-text">📜 soon</div>
+        <p style="text-align:center; margin-top:1.2rem; color:#a08960;">Реквизиты появятся позже. Следите за объявлениями в Discord.</p>
+      </div>
+      <div class="highlight-box" style="text-align:center;">
+        💖 Спасибо, что вы с нами. Каждый рубль пойдёт на улучшение сервера, новые сборки и стабильный хостинг.
+      </div>
+    </div>
+
+    <div class="signature">✠ Верховный Судья WhiteSideCraftRP ✠</div>
+    <div class="social-links">
+      <a href="https://www.tiktok.com/@white_side.tt?_r=1&_t=ZS-944vxnBNKRU" target="_blank" class="btn btn-social">🎵 TikTok</a>
+      <a href="https://discord.gg/QM8enAGtyq" target="_blank" class="btn btn-social">💬 Discord</a>
+    </div>
+    <div class="footer-note">Ваниль + Средневековье + Дарк Фентези = WhiteSideCraftRP<br><span style="font-size:0.8rem;">Создатель сайта - Чудесный User01</span></div>
+  </div>
+
+  <script>
+    (function() {
+      const tabButtons = document.querySelectorAll('.tab-btn');
+      const tabContents = document.querySelectorAll('.tab-content');
+      function switchTab(tabId) {
+        tabButtons.forEach(b => b.classList.remove('active'));
+        tabContents.forEach(c => c.classList.remove('active'));
+        const targetContent = document.getElementById(tabId);
+        const targetButton = document.querySelector(`[data-tab="${tabId}"]`);
+        if (targetContent) targetContent.classList.add('active');
+        if (targetButton) targetButton.classList.add('active');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+      tabButtons.forEach(btn => {
+        btn.addEventListener('click', () => switchTab(btn.getAttribute('data-tab')));
+      });
+    })();
+  </script>
+</body>
+</html>
